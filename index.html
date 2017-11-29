@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
+        <script src="sketch.js"></script>
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
+        <script src="semantic/dist/semantic.min.js"></script>
+        <link rel="stylesheet" href="semantic/dist/semantic.min.css">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div class="ui grid segment basic padded" style="margin-top:40px;" id="settingsPanel">
+            <div class="ui column eight wide">
+                <div class="ui row">
+                    <h2 class="ui header">
+                        <i class="settings icon"></i>
+                        <div class="content">
+                            Espaço total da memória
+                        </div>
+                    </h2>
+                    <div class="ui buttons">
+                        <button class="ui button huge toggle blue gb1">1024 KB</button>
+                        <button class="ui button huge toggle gb1">2048 KB</button>
+                        <button class="ui button huge toggle gb1">4096 KB</button>
+                        <button class="ui button huge toggle gb1">8192 KB</button>
+                    </div>
+                </div>
+                <div class="ui row">
+                    <h2 class="ui header">
+                        <i class="settings icon"></i>
+                        <div class="content">
+                            Quantidade de espaços livres de memória
+                        </div>
+                    </h2>
+                    <div class="ui range">
+                        <input type="range" min="1" max="20" value="15" data-toSetting="qtdeLivres">
+                        <div class="ui label massive blue">7</div>
+                    </div>
+                </div>
+                <div class="ui row">
+                    <h2 class="ui header">
+                        <i class="settings icon"></i>
+                        <div class="content">
+                            Tamanho dos espaços de memória livres (random)
+                        </div>
+                    </h2>
+                    <div class="ui right labeled input">
+                        <label class="ui label">min</label>
+                        <input type="number" id="minTamLivres" value="1">
+                        <div class="ui basic label">
+                            KB
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="ui right labeled input">
+                        <label class="ui label">max</label>
+                        <input type="number" id="maxTamLivres" value="64">
+                        <div class="ui basic label">
+                            KB
+                        </div>
+                    </div>
+                </div>
+			</div>
+            <div class="ui column eight wide">
+                <div class="ui row">
+                    <h2 class="ui header">
+                        <i class="settings icon"></i>
+                        <div class="content">
+                            Quantidade de pedidos de alocação
+                        </div>
+                    </h2>
+                    <div class="ui range">
+                        <input type="range" min="1" max="20" value="5" data-toSetting="qtdePedidos">
+                        <div class="ui label massive blue">5</div>
+                    </div>
+                </div>
+                <div class="ui row">
+                    <h2 class="ui header">
+                        <i class="settings icon"></i>
+                        <div class="content">
+                            Tamanho da alocação dos pedidos (random)
+                        </div>
+                    </h2>
+                    <div class="ui right labeled input">
+                        <label class="ui label">min</label>
+                        <input type="number" id="minTamPedidos" value="4">
+                        <div class="ui basic label">
+                            KB
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="ui right labeled input">
+                        <label class="ui label">max</label>
+                        <input type="number" id="maxTamPedidos" value="64">
+                        <div class="ui basic label">
+                            KB
+                        </div>
+                    </div>
+                </div>
+                <div class="ui row">
+                    <h2 class="ui header">
+                        <i class="settings icon"></i>
+                        <div class="content">
+                            Algoritmo de gerência das partições livres
+                        </div>
+                    </h2>
+                    <div class="ui buttons">
+                        <button class="ui button huge toggle gb2 blue" data-id="bf">Best-Fit</button>
+                        <button class="ui button huge toggle gb2" data-id="wf">Worst-Fit</button>
+                        <button class="ui button huge toggle gb2" data-id="ff">First-Fit</button>
+                        <button class="ui button huge toggle gb2" data-id="cf">Circular-Fit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ui row">
+                <button class="ui button massive teal fluid" id="go">GO!</button>
+            </div>
+		</div>
+    </body>
+    <script src="main.js"></script>
+</html>
