@@ -5,7 +5,8 @@ var
 	uiAllocks = [],
 	uiBlocks = [],
 	screenPadding = 20,
-	lim = 10
+	lim = 10,
+	pointer = null;
 ;
 
 function setup() {
@@ -14,16 +15,20 @@ function setup() {
 		background(255);
 		makeAllock();
 		makeBlock();
+
+		setTimeout(run, 0);
 	}
 }
 
 function draw() {
 	if(started){
-
 		drawNomeAlgoritmo(algoritmos[settings.algoritmo]);
 		drawAllocks();
 		drawMemory();
 		drawBlocks();
+
+		if(pointer)
+			drawPointer();
 	}
 }
 
@@ -71,8 +76,6 @@ function makeBlock() {
 			el.free
 		));
 	});
-
-	console.log(uiBlocks);
 }
 
 function drawAllocks() {
@@ -95,8 +98,11 @@ function drawBlocks() {
 }
 
 function drawMemory() {
-	fill('#EFEFEF');
+	fill(0, 0);
+	stroke('#EFEFEF');
 	rect(width/2 - 512, 150, 1034, 60, 7, 7, 7, 7);
+	fill('#EFEFEF')
+	noStroke();
 	text('Memória', width/2 - 512, 140);
 }
 
@@ -108,11 +114,34 @@ function Allock(id, x, w, color) {
 	this.h = 50;
 	this.borderRadius = 3;
 	this.fill = color;
+	this.speed = 10;
+	this.move = {x: this.x, y: this.y};
 
 	this.show = function(){
 		noStroke();
 		fill(this.fill);
 		rect(this.x, this.y, this.w, this.h, this.borderRadius, this.borderRadius, this.borderRadius, this.borderRadius);
+
+		if(this.x > this.move.x){
+			if((this.x + this.speed) > this.move.x)
+				this.x = this.move.x;
+			else
+				this.x += this.speed;
+		}
+
+		if(this.x < this.move.x){
+			if((this.x - this.speed) < this.move.x)
+				this.x = this.move.x;
+			else
+				this.x -= this.speed;
+		}
+
+		if(this.y > this.move.y){
+			if((this.y - this.speed) < this.move.y)
+				this.y = this.move.y;
+			else
+				this.y -= this.speed;
+		}
 	}
 }
 
@@ -123,11 +152,52 @@ function Block(id, x, w, free) {
 	this.w = w;
 	this.h = 50;
 	this.borderRadius = 3;
-	this.fill = free ? '#EFEFEF' : '#C9442B';
+	this.free = free;
+	this.fill = this.free ? '#FFF' : '#DFDFDF';
 
 	this.show = function(){
 		noStroke();
 		fill(this.fill);
 		rect(this.x, this.y, this.w, this.h, this.borderRadius, this.borderRadius, this.borderRadius, this.borderRadius);
 	}
+}
+
+function run() {
+	// pointer = {x: 100, y: 100};
+
+	switch (settings.algoritmo) {
+		case 'bf':
+			best_fit();
+			break;
+
+	}
+}
+
+function drawPointer() {
+	fill('#99FFDD');
+	triangle(pointer.x - 8, pointer.y + 15, pointer.x + 8, pointer.y + 15, pointer.x, pointer.y);
+	rect(pointer.x - 2, pointer.y + 15, 4, 20);
+}
+
+function best_fit() {
+
+		uiAllocks.map(allock => {
+			let bf = uiBlocks.filter(x => x.w >= allock.w).sort((x, y) => {return x.w-y.w})[0];
+
+			if(bf){
+				// allock.x = bf.x;
+				// allock.y = bf.y;
+				allock.move.x = bf.x;
+				allock.move.y = bf.y;
+
+				if(bf.w == allock.w){
+					uiBlocks.splice(uiBlocks.indexOf(bf), 1);
+				}else{
+					bf.w -= allock.w;
+					bf.x += allock.w;
+				}
+			}else{
+				console.log('has no BF!');
+			}
+		});
 }
