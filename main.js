@@ -13,6 +13,13 @@ var settings = {
 	algoritmo: 'bf'
 }
 
+var algoritmos = {
+	'bf': 'Best-Fit',
+	'wf': 'Worst-Fit',
+	'ff': 'First-Fit',
+	'nf': 'Next-Fit'
+}
+
 $('.ui.button.toggle.gb1')
 	.on('click', e => {
 		$('.ui.button.toggle.gb1').removeClass('blue');
@@ -53,7 +60,9 @@ $('#go')
 			blocks: makeBlocks(free.arr, busy.arr)
 		}
 
-		console.log(memory);
+		let allocks = getAllocks();
+
+		start(memory, allocks);
 	})
 	.ready( e => {
 		$('#go').click();
@@ -62,6 +71,16 @@ $('#go')
 
 function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min) + min);
+}
+
+function getAllocks() {
+	let arr = [];
+
+	while(settings.qtdePedidos--){
+		arr.push(getRandom(settings.tamPedidos.min, settings.tamPedidos.max));
+	}
+
+	return arr;
 }
 
 function getFree() {

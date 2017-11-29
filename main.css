@@ -1,3 +1,7 @@
+html, body{
+	overflow: hidden !important;
+}
+
 .ui.row{
 	margin-top:50px;
 }
